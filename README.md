@@ -1,4 +1,4 @@
-#Todo App Using HTML, CSS and JavaScript
+<h1>Todo App Using HTML CSS and JavaScript</h1>
 
 <p>
 This is a New JavaScript Project Created by 
