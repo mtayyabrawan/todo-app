@@ -144,9 +144,6 @@ body {
   background-size: cover;
   background-position: center;
 }
-button {
-  border: none;
-}
 .todoImg {
   width: 60%;
   height: 60%;
