@@ -73,8 +73,23 @@ async function addTask(node) {
   task.classList.add("appAddTask");
   let addTP = document.createElement("p");
   addTP.classList.add("addTP");
-  let addTPCon = "hey! to add task enter task below and hit add button";
+  let addTInBDiv = document.createElement("div");
+  addTInBDiv.classList.add("addTInBDiv");
+  let addTIn = document.createElement("input");
+  addTIn.classList.add("addTIn");
+  addTIn.setAttribute("type", "text");
+  addTIn.required = true;
+  addTIn.autofocus = true;
+  addTIn.name = "Task";
+  addTIn.placeholder = "Enter Task Here";
+  let addTB = document.createElement("button");
+  addTB.classList.add("addTB");
+  addTB.innerText = "Add Now";
+  let addTPCon = "hey! to add task enter task below and now hit add button";
+  addTInBDiv.appendChild(addTIn);
+  addTInBDiv.appendChild(addTB);
   task.appendChild(addTP);
+  task.appendChild(addTInBDiv);
   node.appendChild(task);
   await textAnim(addTP, addTPCon, 75);
 }
