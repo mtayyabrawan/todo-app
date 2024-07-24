@@ -83,6 +83,9 @@ body {
   animation-iteration-count: 1;
   animation-direction: normal;
 }
+.socialMenu a:focus-visible {
+  outline: none;
+}
 .buttons {
   width: 75px;
   height: 75px;
@@ -201,7 +204,7 @@ body {
 .appAddTask {
   text-transform: capitalize;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
 }
@@ -209,4 +212,48 @@ body {
   text-align: justify;
   text-wrap: wrap;
   font-size: 24px;
+}
+.addTInBDiv {
+  height: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+}
+.addTIn {
+  height: 50px;
+  width: 75%;
+  font-size: 25px;
+  text-align: center;
+  border-radius: 100px;
+  border: none;
+  color: gold;
+  font-weight: bold;
+}
+.addTIn::-webkit-input-placeholder {
+  color: gold;
+  font-weight: bold;
+}
+.addTIn:focus-visible {
+  outline: none;
+}
+.addTB {
+  padding: 10px 15px;
+  font-size: 24px;
+  border-radius: 50px;
+  border: none;
+  color: black;
+  font-weight: bold;
+  background-color: greenyellow;
+  transition-property: all;
+  transition-duration: 500ms;
+  transition-timing-function: ease-in-out;
+}
+.addTB:hover {
+  background-color: black;
+  color: greenyellow;
+}
+.addTB:focus-visible {
+  outline: none;
 }
