@@ -68,10 +68,15 @@ for (let button of buttons) {
     }
   });
 }
-function addTask(node) {
+async function addTask(node) {
   let task = document.createElement("div");
   task.classList.add("appAddTask");
+  let addTP = document.createElement("p");
+  addTP.classList.add("addTP");
+  let addTPCon = "hey! to add task enter task below and hit add button";
+  task.appendChild(addTP);
   node.appendChild(task);
+  await textAnim(addTP, addTPCon, 75);
 }
 function editTask(node) {
   let task = document.createElement("div");
