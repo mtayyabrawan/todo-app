@@ -86,7 +86,7 @@ body {
 .socialMenu a:focus-visible {
   outline: none;
 }
-.buttons {
+:p .buttons {
   width: 75px;
   height: 75px;
   border-radius: 50%;
