@@ -86,7 +86,7 @@ body {
 .socialMenu a:focus-visible {
   outline: none;
 }
-:p .buttons {
+.buttons {
   width: 75px;
   height: 75px;
   border-radius: 50%;
@@ -256,4 +256,7 @@ body {
 }
 .addTB:focus-visible {
   outline: none;
+}
+.inpWrong {
+  background-color: rgba(255, 0, 0, 0.5);
 }
