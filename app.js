@@ -1,3 +1,4 @@
+let tasks = [];
 let app = document.querySelector(".mainApp");
 let todoImg = document.querySelector(".todoImg");
 let buttons = document.querySelectorAll(".editMenu .buttons");
@@ -82,16 +83,78 @@ async function addTask(node) {
   addTIn.autofocus = true;
   addTIn.name = "Task";
   addTIn.placeholder = "Enter Task Here";
+  addTIn.maxLength = 30;
   let addTB = document.createElement("button");
   addTB.classList.add("addTB");
   addTB.innerText = "Add Now";
   let addTPCon = "hey! to add task enter task below and now hit add button";
   addTInBDiv.appendChild(addTIn);
+  let isICorrect;
+  let isCCorrect;
+  addTIn.addEventListener("input", () => {
+    let inputStr = addTIn.value.trim();
+    isICorrect = inputCheck(inputStr);
+    if (isICorrect) {
+      addTIn.classList.remove("inpWrong");
+    } else {
+      addTIn.classList.add("inpWrong");
+    }
+  });
+  addTIn.addEventListener("change", () => {
+    let inputStr = addTIn.value.trim();
+    isCCorrect = inputCheck(inputStr);
+    if (isCCorrect) {
+      addTIn.classList.remove("inpWrong");
+    } else {
+      addTIn.classList.add("inpWrong");
+    }
+  });
   addTInBDiv.appendChild(addTB);
   task.appendChild(addTP);
   task.appendChild(addTInBDiv);
   node.appendChild(task);
-  await textAnim(addTP, addTPCon, 75);
+  await textAnim(addTP, addTPCon, 50);
+  addTB.addEventListener("click", () => {
+    if (isICorrect && isCCorrect && addTIn.value.trim() != 0) {
+      let taskValue = addTIn.value.trim();
+      if (!tasks.includes(taskValue)) {
+        addTB.innerText = "Task Added";
+        tasks.push(taskValue);
+        setTimeout(() => {
+          addTB.innerText = "Add Task";
+        }, 450);
+        console.log(tasks);
+      } else {
+        addTB.innerText = "Already Exist";
+        setTimeout(() => {
+          addTB.innerText = "Add Task";
+        }, 450);
+      }
+    } else {
+      addTB.innerText = "Wrong Input";
+      setTimeout(() => {
+        addTB.innerText = "Add Task";
+      }, 450);
+    }
+  });
+}
+function inputCheck(valueStr) {
+  let allValue = 0;
+  for (let i = 0; i < valueStr.length; i++) {
+    let value = valueStr.charCodeAt(i);
+    if (
+      value == 32 ||
+      (value >= 97 && value <= 122) ||
+      (value >= 65 && value <= 90)
+    ) {
+      allValue++;
+    }
+  }
+  if (allValue == valueStr.length) {
+    return true;
+  } else {
+    return false;
+  }
 }
 function editTask(node) {
   let task = document.createElement("div");
