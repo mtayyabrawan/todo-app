@@ -123,7 +123,6 @@ async function addTask(node) {
         setTimeout(() => {
           addTB.innerText = "Add Task";
         }, 450);
-        console.log(tasks);
       } else {
         addTB.innerText = "Already Exist";
         setTimeout(() => {
