@@ -210,7 +210,7 @@ async function viewTask(node) {
       }
       viewTNB.classList.remove("disable");
       viewTNB.addEventListener("click", () => {
-        removeLi();
+        removeLiV();
         for (let i = 8; i < tasks.length; i++) {
           creatLi(viewTList, tasks[i]);
         }
@@ -218,7 +218,7 @@ async function viewTask(node) {
         viewTNB.classList.add("disable");
       });
       viewTPB.addEventListener("click", () => {
-        removeLi();
+        removeLiV();
         for (let i = 0; i < 8; i++) {
           creatLi(viewTList, tasks[i]);
         }
@@ -234,14 +234,100 @@ function creatLi(parent, value) {
   li.innerText = value;
   parent.appendChild(li);
 }
-function removeLi() {
+function removeLiV() {
   let allLi = document.querySelectorAll(".viewTList li");
   for (let li of allLi) {
     li.remove();
   }
 }
-function deleteTask(node) {
+async function deleteTask(node) {
   let task = document.createElement("div");
   task.classList.add("appDeleteTask");
+  let deleteT = document.createElement("div");
+  deleteT.classList.add("deleteT");
+  let deleteTH = document.createElement("h1");
+  deleteTH.classList.add("deleteTH");
+  let deleteTHCon = "Your Task List To Delete";
+  let deleteTList = document.createElement("ul");
+  deleteTList.classList.add("deleteTList");
+  deleteT.appendChild(deleteTH);
+  deleteT.appendChild(deleteTList);
+  let deleteTPB = document.createElement("div");
+  deleteTPB.classList.add("deleteTPB");
+  deleteTPB.classList.add("disable");
+  deleteTPB.innerText = "<<";
+  let deleteTNB = document.createElement("div");
+  deleteTNB.classList.add("deleteTNB");
+  deleteTNB.classList.add("disable");
+  deleteTNB.innerText = ">>";
+  task.appendChild(deleteTPB);
+  task.appendChild(deleteT);
+  task.appendChild(deleteTNB);
   node.appendChild(task);
+  if (tasks.length == 0) {
+    creatLi(deleteTList, "Empty Task List");
+  } else {
+    if (tasks.length <= 8) {
+      for (let task of tasks) {
+        creatLiDelBtn(deleteTList, task);
+      }
+    } else {
+      for (let i = 0; i < 8; i++) {
+        creatLiDelBtn(deleteTList, tasks[i]);
+      }
+      if (tasks.length > 8) {
+        deleteTNB.classList.remove("disable");
+      }
+      deleteTNB.addEventListener("click", () => {
+        removeLiD();
+        for (let i = 8; i < tasks.length; i++) {
+          creatLiDelBtn(deleteTList, tasks[i]);
+        }
+        deleteTPB.classList.remove("disable");
+        deleteTNB.classList.add("disable");
+      });
+      deleteTPB.addEventListener("click", () => {
+        removeLiD();
+        for (let i = 0; i < 8; i++) {
+          creatLiDelBtn(deleteTList, tasks[i]);
+        }
+        if (tasks.length > 8) {
+          deleteTNB.classList.remove("disable");
+        }
+        deleteTPB.classList.add("disable");
+      });
+    }
+  }
+  await textAnim(deleteTH, deleteTHCon, 50);
+  node.appendChild(task);
+}
+function removeLiD() {
+  let allLi = document.querySelectorAll(".deleteTList li");
+  for (let li of allLi) {
+    li.remove();
+  }
+}
+function creatLiDelBtn(parent, value) {
+  if (value !== undefined) {
+    let li = document.createElement("li");
+    let liPara = document.createElement("p");
+    let deleteNB = document.querySelector(".deleteTNB");
+    let deletePB = document.querySelector(".deleteTPB");
+    liPara.classList.add("liPara");
+    liPara.innerText = value;
+    let delBtn = document.createElement("button");
+    delBtn.classList.add("delBtn");
+    delBtn.innerText = "Delete";
+    li.appendChild(liPara);
+    li.appendChild(delBtn);
+    parent.appendChild(li);
+    delBtn.addEventListener("click", () => {
+      delBtn.parentElement.remove();
+      let delTaskIdx = tasks.indexOf(delBtn.previousElementSibling.innerText);
+      tasks.splice(delTaskIdx, 1);
+      if (tasks.length > 8) {
+        deleteNB.classList.remove("disabled");
+      }
+    });
+  }
 }
