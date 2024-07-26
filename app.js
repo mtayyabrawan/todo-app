@@ -87,7 +87,8 @@ async function addTask(node) {
   let addTB = document.createElement("button");
   addTB.classList.add("addTB");
   addTB.innerText = "Add Now";
-  let addTPCon = "hey! to add task enter task below and now hit add button";
+  let addTPCon =
+    "hey! to add task enter task below and now hit add button (daily task limit : 14)";
   addTInBDiv.appendChild(addTIn);
   let isICorrect;
   let isCCorrect;
@@ -113,9 +114,14 @@ async function addTask(node) {
   task.appendChild(addTP);
   task.appendChild(addTInBDiv);
   node.appendChild(task);
-  await textAnim(addTP, addTPCon, 50);
+  await textAnim(addTP, addTPCon, 25);
   addTB.addEventListener("click", () => {
-    if (isICorrect && isCCorrect && addTIn.value.trim() != 0) {
+    if (
+      isICorrect &&
+      isCCorrect &&
+      addTIn.value.trim() != 0 &&
+      tasks.length < 14
+    ) {
       let taskValue = addTIn.value.trim();
       if (!tasks.includes(taskValue)) {
         addTB.innerText = "Task Added";
@@ -129,6 +135,13 @@ async function addTask(node) {
           addTB.innerText = "Add Task";
         }, 450);
       }
+    } else if (
+      !tasks.length < 14 &&
+      isICorrect &&
+      isCCorrect &&
+      addTIn.value.trim() != 0
+    ) {
+      addTB.innerText = "List Full No Space Left";
     } else {
       addTB.innerText = "Wrong Input";
       setTimeout(() => {
@@ -160,10 +173,72 @@ function editTask(node) {
   task.classList.add("appEditTask");
   node.appendChild(task);
 }
-function viewTask(node) {
+async function viewTask(node) {
   let task = document.createElement("div");
   task.classList.add("appViewTask");
+  let viewT = document.createElement("div");
+  viewT.classList.add("viewT");
+  let viewTH = document.createElement("h1");
+  viewTH.classList.add("viewTH");
+  let viewTHCon = "Your Task List";
+  let viewTList = document.createElement("ul");
+  viewTList.classList.add("viewTList");
+  viewT.appendChild(viewTH);
+  viewT.appendChild(viewTList);
+  let viewTPB = document.createElement("div");
+  viewTPB.classList.add("viewTPB");
+  viewTPB.classList.add("disable");
+  viewTPB.innerText = "<<";
+  let viewTNB = document.createElement("div");
+  viewTNB.classList.add("viewTNB");
+  viewTNB.classList.add("disable");
+  viewTNB.innerText = ">>";
+  task.appendChild(viewTPB);
+  task.appendChild(viewT);
+  task.appendChild(viewTNB);
   node.appendChild(task);
+  if (tasks.length == 0) {
+    creatLi(viewTList, "Empty Task List");
+  } else {
+    if (tasks.length <= 8) {
+      for (let task of tasks) {
+        creatLi(viewTList, task);
+      }
+    } else {
+      for (let i = 0; i < 8; i++) {
+        creatLi(viewTList, tasks[i]);
+      }
+      viewTNB.classList.remove("disable");
+      viewTNB.addEventListener("click", () => {
+        removeLi();
+        for (let i = 8; i < tasks.length; i++) {
+          creatLi(viewTList, tasks[i]);
+        }
+        viewTPB.classList.remove("disable");
+        viewTNB.classList.add("disable");
+      });
+      viewTPB.addEventListener("click", () => {
+        removeLi();
+        for (let i = 0; i < 8; i++) {
+          creatLi(viewTList, tasks[i]);
+        }
+        viewTNB.classList.remove("disable");
+        viewTPB.classList.add("disable");
+      });
+    }
+  }
+  await textAnim(viewTH, viewTHCon, 50);
+}
+function creatLi(parent, value) {
+  let li = document.createElement("li");
+  li.innerText = value;
+  parent.appendChild(li);
+}
+function removeLi() {
+  let allLi = document.querySelectorAll(".viewTList li");
+  for (let li of allLi) {
+    li.remove();
+  }
 }
 function deleteTask(node) {
   let task = document.createElement("div");
