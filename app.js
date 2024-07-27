@@ -78,7 +78,7 @@ async function addTask(node) {
   addTInBDiv.classList.add("addTInBDiv");
   let addTIn = document.createElement("input");
   addTIn.classList.add("addTIn");
-  addTIn.setAttribute("type", "text");
+  addTIn.type = "text";
   addTIn.required = true;
   addTIn.autofocus = true;
   addTIn.name = "Task";
@@ -168,10 +168,133 @@ function inputCheck(valueStr) {
     return false;
   }
 }
-function editTask(node) {
+async function editTask(node) {
   let task = document.createElement("div");
   task.classList.add("appEditTask");
+  let editTP = document.createElement("p");
+  editTP.classList.add("editTP");
+  let editTPCon =
+    "to edit any task enter previous task in first box and updated task in second one and hit updated button";
+  let editTInpDiv = document.createElement("div");
+  editTInpDiv.classList.add("editTInpDiv");
+  let editTInpP = document.createElement("input");
+  editTInpP.classList.add("editTInpP");
+  editTInpP.type = "text";
+  editTInpP.required = true;
+  editTInpP.autofocus = true;
+  editTInpP.name = "Previous Task";
+  editTInpP.placeholder = "Enter Previous Task Here";
+  editTInpP.maxLength = 30;
+  let isIPCorrect;
+  let isCPCorrect;
+  editTInpP.addEventListener("input", () => {
+    let inputStr = editTInpP.value.trim();
+    isIPCorrect = inputCheck(inputStr);
+    if (isIPCorrect) {
+      editTInpP.classList.remove("inpWrong");
+    } else {
+      editTInpP.classList.add("inpWrong");
+    }
+  });
+  editTInpP.addEventListener("change", () => {
+    let inputStr = editTInpP.value.trim();
+    isCPCorrect = inputCheck(inputStr);
+    if (isCPCorrect) {
+      editTInpP.classList.remove("inpWrong");
+    } else {
+      editTInpP.classList.add("inpWrong");
+    }
+  });
+  let editTInpU = document.createElement("input");
+  editTInpU.classList.add("editTInpU");
+  editTInpU.type = "text";
+  editTInpU.required = true;
+  editTInpU.autofocus = true;
+  editTInpU.name = "Updated Task";
+  editTInpU.placeholder = "Enter Updated Task Here";
+  editTInpU.maxLength = 30;
+  let isIUCorrect;
+  let isCUCorrect;
+  editTInpU.addEventListener("input", () => {
+    let inputStr = editTInpU.value.trim();
+    isIUCorrect = inputCheck(inputStr);
+    if (isIUCorrect) {
+      editTInpU.classList.remove("inpWrong");
+    } else {
+      editTInpU.classList.add("inpWrong");
+    }
+  });
+  editTInpU.addEventListener("change", () => {
+    let inputStr = editTInpU.value.trim();
+    isCUCorrect = inputCheck(inputStr);
+    if (isCUCorrect) {
+      editTInpU.classList.remove("inpWrong");
+    } else {
+      editTInpU.classList.add("inpWrong");
+    }
+  });
+  let editTBtn = document.createElement("button");
+  editTBtn.classList.add("editTBtn");
+  editTBtn.innerText = "Edit Now";
+  task.appendChild(editTP);
+  editTInpDiv.appendChild(editTInpP);
+  editTInpDiv.appendChild(editTInpU);
+  editTInpDiv.appendChild(editTBtn);
+  task.appendChild(editTInpDiv);
   node.appendChild(task);
+  await textAnim(editTP, editTPCon, 25);
+  editTBtn.addEventListener("click", () => {
+    if (
+      isIPCorrect &&
+      isIUCorrect &&
+      isCPCorrect &&
+      isCUCorrect &&
+      tasks.length < 14 &&
+      editTInpP.value.trim() != 0 &&
+      editTInpU.value.trim() != 0
+    ) {
+      let PrevValue = editTInpP.value.trim();
+      let UpdateValue = editTInpU.value.trim();
+      if (tasks.includes(PrevValue)) {
+        if (PrevValue === UpdateValue) {
+          editTBtn.innerText = "Same Values";
+          setTimeout(() => {
+            editTBtn.innerText = "Edit Now";
+          }, 450);
+        } else {
+          let PrevValueIdx = tasks.indexOf(PrevValue);
+          tasks.splice(PrevValueIdx, 1, UpdateValue);
+          editTBtn.innerText = "Task Updated";
+          setTimeout(() => {
+            editTBtn.innerText = "Edit Now";
+          }, 450);
+        }
+      } else {
+        editTBtn.innerText = "Task Not Found";
+        setTimeout(() => {
+          editTBtn.innerText = "Edit Now";
+        }, 450);
+      }
+    } else if (
+      tasks.length == 0 &&
+      isCPCorrect &&
+      isCUCorrect &&
+      isIPCorrect &&
+      isIUCorrect &&
+      editTInpP.value.trim() != 0 &&
+      editTInpU.value.trim() != 0
+    ) {
+      editTBtn.innerText = "Task List Empty";
+      setTimeout(() => {
+        editTBtn.innerText = "Edit Now";
+      }, 450);
+    } else {
+      editTBtn.innerText = "Wrong Input";
+      setTimeout(() => {
+        editTBtn.innerText = "Edit Now";
+      }, 450);
+    }
+  });
 }
 async function viewTask(node) {
   let task = document.createElement("div");
