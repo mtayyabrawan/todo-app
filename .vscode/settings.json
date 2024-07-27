@@ -1,0 +1,10 @@
+{
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSaveMode": "file",
+    "files.autoSaveDelay": 10,
+    "files.autoSave": "afterDelay",
+    "liveServer.settings.port": 3000,
+    "prettier.requireConfig": true
+}
