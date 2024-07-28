@@ -1,3 +1,4 @@
+/* global styles */
 :root {
     --mainBg: #d891d8;
     --mainFg: #000000;
@@ -5,6 +6,7 @@
     --navbarFg: #ffffff;
     --navlinkBg: #570f57;
     --navlinkHv: #570f57bf;
+    --footerBg: #e052e0;
 }
 
 * {
@@ -29,7 +31,7 @@ body {
     max-width: 1540px;
     min-width: 320px;
 }
-
+/* navbar styles */
 #navbar {
     position: sticky;
     top: 0.25rem;
@@ -69,8 +71,23 @@ body {
 .active {
     border: 1px solid var(--mainBg);
 }
-
+/* main pge styles */
 main {
-    min-height: calc(100vh - 3rem);
+    min-height: calc(100vh - 5.5rem);
     padding: 1rem 2rem;
+}
+
+/* footer styles */
+footer {
+    height: 2.5rem;
+    background-color: var(--footerBg);
+    font-size: small;
+    gap: 1rem;
+}
+
+#love {
+    color: red;
+}
+footer a {
+    font-weight: 500;
 }
