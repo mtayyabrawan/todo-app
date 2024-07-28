@@ -1,0 +1,27 @@
+.w-full {
+    width: 100%;
+}
+
+.h-full {
+    height: 100%;
+}
+
+.mxa {
+    margin: 0 auto;
+}
+
+.flex {
+    display: flex;
+}
+
+.jb {
+    justify-content: space-between;
+}
+
+.jc {
+    justify-content: center;
+}
+
+.ac {
+    align-items: center;
+}
