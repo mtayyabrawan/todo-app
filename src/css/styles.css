@@ -1,0 +1,76 @@
+:root {
+    --mainBg: #d891d8;
+    --mainFg: #000000;
+    --navbarBg: #ad1fad;
+    --navbarFg: #ffffff;
+    --navlinkBg: #570f57;
+    --navlinkHv: #570f57bf;
+}
+
+* {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    transition: all ease-in-out 400ms;
+}
+
+a {
+    text-decoration: none;
+    color: var(--mainFg);
+}
+
+body {
+    background-color: var(--mainBg);
+    color: var(--mainFg);
+}
+
+#container {
+    max-width: 1540px;
+    min-width: 320px;
+}
+
+#navbar {
+    position: sticky;
+    top: 0.25rem;
+    width: 75%;
+    height: 3rem;
+    padding-inline: 0.75rem;
+    border-radius: 0.35rem;
+    box-shadow: 0px 0px 10px -0.75px var(--navbarBg);
+    background-color: var(--navbarBg);
+}
+
+#navbar a {
+    color: var(--navbarFg);
+}
+
+#logo {
+    font-size: large;
+    font-weight: 500;
+}
+
+#main-nav nav {
+    gap: 1rem;
+}
+
+#main-nav a {
+    font-size: small;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--navlinkBg);
+    border-radius: 0.25rem;
+}
+
+#main-nav a:hover {
+    background-color: var(--navlinkHv);
+    box-shadow: 0px 0px 7px -0.5px var(--navlinkBg);
+}
+
+.active {
+    border: 1px solid var(--mainBg);
+}
+
+main {
+    min-height: calc(100vh - 3rem);
+    padding: 1rem 2rem;
+}
