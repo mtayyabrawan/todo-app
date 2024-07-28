@@ -16,6 +16,19 @@
     box-sizing: border-box;
     transition: all ease-in-out 400ms;
 }
+*::-webkit-scrollbar {
+    display: none;
+}
+.custom-scrollbar::-webkit-scrollbar {
+    display: block;
+    width: 0.25rem;
+    background-color: var(--mainBg);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--mainFg);
+    border-radius: 0.15rem;
+    cursor: pointer;
+}
 
 a {
     text-decoration: none;
@@ -71,7 +84,7 @@ body {
 .active {
     border: 1px solid var(--mainBg);
 }
-/* main pge styles */
+/* main page styles */
 main {
     min-height: calc(100vh - 5.5rem);
     padding: 1rem 2rem;
