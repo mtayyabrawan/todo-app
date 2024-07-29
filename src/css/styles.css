@@ -15,6 +15,7 @@
     margin: 0;
     box-sizing: border-box;
     transition: all ease-in-out 400ms;
+    scroll-behavior: smooth;
 }
 *::-webkit-scrollbar {
     display: none;
@@ -54,35 +55,31 @@ body {
     border-radius: 0.35rem;
     box-shadow: 0px 0px 10px -0.75px var(--navbarBg);
     background-color: var(--navbarBg);
-}
-
-#navbar a {
-    color: var(--navbarFg);
-}
-
-#logo {
-    font-size: large;
-    font-weight: 500;
-}
-
-#main-nav nav {
-    gap: 1rem;
-}
-
-#main-nav a {
-    font-size: small;
-    padding: 0.25rem 0.5rem;
-    background-color: var(--navlinkBg);
-    border-radius: 0.25rem;
-}
-
-#main-nav a:hover {
-    background-color: var(--navlinkHv);
-    box-shadow: 0px 0px 7px -0.5px var(--navlinkBg);
-}
-
-.active {
-    border: 1px solid var(--mainBg);
+    a {
+        color: var(--navbarFg);
+    }
+    #logo {
+        font-size: large;
+        font-weight: 500;
+    }
+    #main-nav {
+        a {
+            font-size: small;
+            padding: 0.25rem 0.5rem;
+            background-color: var(--navlinkBg);
+            border-radius: 0.25rem;
+            &:hover {
+                background-color: var(--navlinkHv);
+                box-shadow: 0px 0px 7px -0.5px var(--navlinkBg);
+            }
+            &.active {
+                border: 1px solid var(--mainBg);
+            }
+        }
+        nav {
+            gap: 1rem;
+        }
+    }
 }
 /* main page styles */
 main {
