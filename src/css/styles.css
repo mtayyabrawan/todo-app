@@ -35,6 +35,13 @@ a {
     text-decoration: none;
     color: var(--mainFg);
 }
+button {
+    border: none;
+    cursor: pointer;
+    &:focus-visible {
+        outline: none;
+    }
+}
 
 body {
     background-color: var(--mainBg);
@@ -59,8 +66,15 @@ body {
         color: var(--navbarFg);
     }
     #logo {
-        font-size: large;
-        font-weight: 500;
+        column-gap: 0.5rem;
+        img {
+            height: 1.5rem;
+            width: 1.5rem;
+        }
+        span {
+            font-size: large;
+            font-weight: 500;
+        }
     }
     #main-nav {
         a {
