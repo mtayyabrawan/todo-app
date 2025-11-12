@@ -1,0 +1,69 @@
+h1 {
+    font-size: larger;
+    text-align: center;
+    font-weight: 500;
+}
+#todos {
+    height: auto;
+    width: 70%;
+    max-height: calc(100vh - 10rem);
+    overflow-y: auto;
+    margin-top: 1rem;
+    padding: 1rem;
+    .todo {
+        background-color: #faebd7;
+        height: 4rem;
+        margin-block: 1rem;
+        border-radius: 0.25rem;
+        padding-inline: 1rem;
+        .selection-manager {
+            height: 1.5rem;
+            img {
+                cursor: pointer;
+            }
+            img.selected {
+                display: none;
+            }
+            img.not-selected {
+                display: inline;
+            }
+            input:checked {
+                & ~ label {
+                    img.selected {
+                        display: inline;
+                    }
+                    img.not-selected {
+                        display: none;
+                    }
+                }
+            }
+        }
+        .actions {
+            column-gap: 0.5rem;
+            button {
+                padding: 0.25rem;
+                border-radius: 0.25rem;
+                height: 1.5rem;
+                width: 1.5rem;
+                &.view {
+                    background-color: #3e3e3e;
+                    &:hover {
+                        background-color: #5e5858;
+                    }
+                }
+                &.edit {
+                    background-color: #3e3ee6;
+                    &:hover {
+                        background-color: #684eee;
+                    }
+                }
+                &.remove {
+                    background-color: #e63e3e;
+                    &:hover {
+                        background-color: #ff5a3e;
+                    }
+                }
+            }
+        }
+    }
+}

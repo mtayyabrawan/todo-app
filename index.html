@@ -1,24 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="./public/favicon.ico" type="image/x-icon" />
-        <link rel="stylesheet" href="./src/css/styles.css" />
-        <link rel="stylesheet" href="./src/css/utils.css" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="/src/css/styles.css" />
+        <link rel="stylesheet" href="/src/css/utils.css" />
         <title>Todosho - Todo App with Shortcuts</title>
     </head>
     <body class="h-full w-full custom-scrollbar">
         <div id="container" class="mxa h-full w-full">
             <header id="navbar" class="mxa flex jb ac">
                 <a href="/" id="logo" class="flex ac jc">
-                    <img src="./public/website-logo.png" alt="logo" />
+                    <img src="/website-logo.png" alt="logo" />
                     <span>Todosho</span>
                 </a>
                 <div id="main-nav">
                     <nav class="flex jc ac">
-                        <a href="/about.html">About</a>
-                        <a href="/contact.html">Contact</a>
+                        <a href="./about/" id="about">About</a>
+                        <a href="./contact/" id="contact">Contact</a>
                     </nav>
                 </div>
             </header>
@@ -27,7 +27,7 @@
                 <p>&copy; Copyright <span id="year"></span></p>
                 <p>
                     Made with <span id="love">❤</span> by<a
-                        href="https://muhammad-tayyab-awan.github.io"
+                        href="https://mtayyabrawan.github.io"
                         target="_blank"
                     >
                         Muhammad Tayyab
@@ -37,5 +37,5 @@
             </footer>
         </div>
     </body>
-    <script src="./src/js/app.js"></script>
+    <script type="module" src="/src/app.ts"></script>
 </html>
