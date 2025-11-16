@@ -5,4 +5,9 @@
     "editor.formatOnSaveMode": "file",
     "files.autoSaveDelay": 10,
     "files.autoSave": "afterDelay",
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "vite.config.*": ".prettier*, .lintstaged*, .git*, tsconfig.*",
+        "package.json": "pnpm*, .nvm*"
+    }
 }
