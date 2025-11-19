@@ -16,14 +16,15 @@ const _taskList = _tasks.childNodes as NodeListOf<HTMLDivElement>;
 let tasks = getTasks();
 
 // fetching tasks from localStorage and appending them to DOM
-for (const task of tasks!) {
-    _tasks.appendChild(generateTask(task));
-}
+if (tasks !== null)
+    for (const task of tasks) {
+        _tasks.appendChild(generateTask(task));
+    }
 
 // adding selector event listener to all task elements
-_taskList.forEach((_task) => {
+for (const _task of _taskList) {
     _task.addEventListener("mousedown", listenSelector);
-});
+}
 
 // function to fetch all tasks from localStorage
 function getTasks(): Task[] | null {
