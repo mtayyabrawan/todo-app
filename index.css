@@ -3,19 +3,30 @@ h1 {
     text-align: center;
     font-weight: 500;
 }
-#todos {
+#tasks {
     height: auto;
     width: 70%;
     max-height: calc(100vh - 10rem);
     overflow-y: auto;
     margin-top: 1rem;
     padding: 1rem;
-    .todo {
+    .task {
         background-color: #faebd7;
         height: 4rem;
         margin-block: 1rem;
         border-radius: 0.25rem;
         padding-inline: 1rem;
+        justify-content: start;
+        gap: 1.25rem;
+        &.animate {
+            animation-name: task-animate;
+            animation-duration: calc(sibling-count() * 100ms);
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: 1;
+        }
+        &.selected {
+            background-color: #e073e0;
+        }
         .selection-manager {
             height: 1.5rem;
             img {
@@ -40,6 +51,7 @@ h1 {
         }
         .actions {
             column-gap: 0.5rem;
+            margin-left: auto;
             button {
                 padding: 0.25rem;
                 border-radius: 0.25rem;
@@ -65,5 +77,11 @@ h1 {
                 }
             }
         }
+    }
+}
+
+@keyframes task-animate {
+    from {
+        transform: translateX(1rem);
     }
 }
