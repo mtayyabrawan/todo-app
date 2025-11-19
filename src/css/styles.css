@@ -16,19 +16,24 @@
     box-sizing: border-box;
     transition: all ease-in-out 400ms;
     scroll-behavior: smooth;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    &::selection {
+        background-color: transparent;
+    }
 }
-*::-webkit-scrollbar {
-    display: none;
-}
-.custom-scrollbar::-webkit-scrollbar {
-    display: block;
-    width: 0.25rem;
-    background-color: var(--mainBg);
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: var(--mainFg);
-    border-radius: 0.15rem;
-    cursor: pointer;
+.custom-scrollbar {
+    &::-webkit-scrollbar {
+        display: block;
+        width: 0.25rem;
+        background-color: var(--mainBg);
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--mainFg);
+        border-radius: 0.15rem;
+        cursor: pointer;
+    }
 }
 
 a {
