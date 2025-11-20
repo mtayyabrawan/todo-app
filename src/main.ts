@@ -5,8 +5,11 @@ import detailIcon from "./assets/detail.svg";
 import editIcon from "./assets/edit.svg";
 import removeIcon from "./assets/remove.svg";
 
+// utilities
+import randomId from "./utils/randomId";
+
 // types
-import type { Task } from "./types/main";
+import type { CreateTask, Task } from "./types/main";
 
 // DOM elements
 const _tasks = document.getElementById("tasks") as HTMLDivElement;
@@ -93,4 +96,20 @@ function listenSelector(event: MouseEvent) {
     _task.addEventListener("mouseleave", () => {
         clearTimeout(selectorTimer);
     });
+}
+
+// function to create new tasks and append it to DOM
+function createTask(task: CreateTask) {
+    task.id = randomId({ inner: 6, outer: 4 });
+    if (!task.status) task.status = "pending";
+    task.createdAt = new Date().toLocaleString();
+    if (tasks) {
+        tasks.push(task as Task);
+    } else {
+        tasks = [task as Task];
+    }
+    localStorage.setItem("todo_app_tasks", JSON.stringify(tasks));
+    const _task = generateTask(task as Task);
+    _task.addEventListener("mousedown", listenSelector);
+    _tasks.appendChild(_task);
 }
