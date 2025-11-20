@@ -24,6 +24,33 @@
                 </div>
             </header>
             <main class="w-full h-full">
+                <div id="selected-actions" class="mxa hidden ac">
+                    <button id="select-all" title="Select all tasks">
+                        <img
+                            src="/src/assets/selected.svg"
+                            alt="select-all"
+                            class="w-full h-full"
+                        />
+                    </button>
+                    <button id="unselect" title="Unselect">
+                        <img
+                            src="/src/assets/notselected.svg"
+                            alt="unselect"
+                            class="w-full h-full"
+                        />
+                    </button>
+                    <button
+                        id="remove-selected"
+                        class="remove"
+                        title="Remove selected tasks"
+                    >
+                        <img
+                            src="/src/assets/remove.svg"
+                            alt="remove-selected"
+                            class="w-full h-full"
+                        />
+                    </button>
+                </div>
                 <div id="tasks" class="mxa custom-scrollbar"></div>
             </main>
             <footer class="w-full flex jc ac">

@@ -14,6 +14,8 @@ import type { CreateTask, Task } from "./types/main";
 // DOM elements
 const _tasks = document.getElementById("tasks") as HTMLDivElement;
 const _taskList = _tasks.childNodes as NodeListOf<HTMLDivElement>;
+const _selectAll = document.getElementById("select-all") as HTMLButtonElement;
+const _unselect = document.getElementById("unselect") as HTMLButtonElement;
 
 // global data variables
 let tasks = getTasks();
@@ -27,6 +29,26 @@ if (tasks !== null)
 // adding selector event listener to all task elements
 for (const _task of _taskList) {
     _task.addEventListener("mousedown", listenSelector);
+}
+
+// global task selection and deselection listeners
+_selectAll.addEventListener("click", selectAll);
+_unselect.addEventListener("click", unSelect);
+
+// function to unselect all currently selected tasks DOM elements
+function selectAll() {
+    for (const _task of _taskList) {
+        if (_task.classList.contains("selected")) continue;
+        selectTask(_task);
+    }
+}
+
+// function to select all tasks DOM elements
+function unSelect() {
+    for (const _task of _taskList) {
+        if (!_task.classList.contains("selected")) continue;
+        unSelectTask(_task);
+    }
 }
 
 // function to fetch all tasks from localStorage
@@ -65,25 +87,26 @@ function generateTask(task: Task) {
     return _task;
 }
 
-// function that controls selection and deselection of tasks element in DOM
+// function that controls selection of tasks element in DOM
 function selectTask(_task: HTMLDivElement) {
     const _select = _task.children[0] as HTMLDivElement;
     const _selectionBtn = _select.children[0] as HTMLInputElement;
     const _actions = _task.children[2] as HTMLDivElement;
     _task.classList.add("selected");
-    _task.addEventListener("dblclick", () => {
-        _task.classList.remove("selected");
-        _actions.classList.remove("hidden");
-        _select.classList.add("hidden");
-    });
+    _task.addEventListener("dblclick", () => unSelectTask(_task));
     _select.classList.remove("hidden");
     _selectionBtn.checked = true;
-    _selectionBtn.addEventListener("change", () => {
-        _task.classList.remove("selected");
-        _actions.classList.remove("hidden");
-        _select.classList.add("hidden");
-    });
+    _selectionBtn.addEventListener("change", () => unSelectTask(_task));
     _actions.classList.add("hidden");
+}
+
+// function to unselect a certian task
+function unSelectTask(_task: HTMLDivElement) {
+    const _select = _task.children[0] as HTMLDivElement;
+    const _actions = _task.children[2] as HTMLDivElement;
+    _task.classList.remove("selected");
+    _actions.classList.remove("hidden");
+    _select.classList.add("hidden");
 }
 
 // listener to task elements for selection
