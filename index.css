@@ -3,13 +3,35 @@ h1 {
     text-align: center;
     font-weight: 500;
 }
+button {
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    height: 1.75rem;
+    width: 1.75rem;
+}
+#selected-actions {
+    width: 70%;
+    margin-top: 2rem;
+    padding-inline: 1rem;
+    justify-content: end;
+    column-gap: 0.5rem;
+    &:has(+ #tasks > .selected) {
+        display: flex;
+    }
+}
+.remove {
+    background-color: #e63e3e;
+    &:hover {
+        background-color: #ff5a3e;
+    }
+}
 #tasks {
     height: auto;
     width: 70%;
     max-height: calc(100vh - 10rem);
     overflow-y: auto;
-    margin-top: 1rem;
-    padding: 1rem;
+    margin-top: 0.75rem;
+    padding: 0.5rem;
     .task {
         background-color: #faebd7;
         height: 4rem;
@@ -47,8 +69,6 @@ h1 {
             column-gap: 0.5rem;
             margin-left: auto;
             button {
-                padding: 0.25rem;
-                border-radius: 0.25rem;
                 height: 1.5rem;
                 width: 1.5rem;
                 &.view {
@@ -61,12 +81,6 @@ h1 {
                     background-color: #3e3ee6;
                     &:hover {
                         background-color: #684eee;
-                    }
-                }
-                &.remove {
-                    background-color: #e63e3e;
-                    &:hover {
-                        background-color: #ff5a3e;
                     }
                 }
             }
