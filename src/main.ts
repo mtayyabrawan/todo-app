@@ -111,7 +111,7 @@ function unSelectTask(_task: HTMLDivElement) {
 
 // listener to task elements for selection
 function listenSelector(event: MouseEvent) {
-    const _task = event.target as HTMLDivElement;
+    const _task = event.currentTarget as HTMLDivElement;
     const selectorTimer = setTimeout(() => selectTask(_task), 200);
     _task.addEventListener("mouseup", () => {
         clearTimeout(selectorTimer);
