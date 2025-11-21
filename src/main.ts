@@ -13,27 +13,26 @@ import type { CreateTask, Task } from "./types/main";
 
 // DOM elements
 const _tasks = document.getElementById("tasks") as HTMLDivElement;
-const _taskList = _tasks.childNodes as NodeListOf<HTMLDivElement>;
+const _taskList = _tasks.children as HTMLCollectionOf<HTMLDivElement>;
 const _selectAll = document.getElementById("select-all") as HTMLButtonElement;
-const _unselect = document.getElementById("unselect") as HTMLButtonElement;
+const _unSelect = document.getElementById("unselect") as HTMLButtonElement;
 
 // global data variables
 let tasks = getTasks();
 
-// fetching tasks from localStorage and appending them to DOM
-if (tasks !== null)
-    for (const task of tasks) {
-        _tasks.appendChild(generateTask(task));
-    }
-
-// adding selector event listener to all task elements
-for (const _task of _taskList) {
-    _task.addEventListener("mousedown", listenSelector);
+// function to generate all tasks
+function generateTasks() {
+    if (tasks !== null)
+        for (const task of tasks) {
+            _tasks.appendChild(generateTask(task));
+        }
 }
+
+generateTasks();
 
 // global task selection and deselection listeners
 _selectAll.addEventListener("click", selectAll);
-_unselect.addEventListener("click", unSelect);
+_unSelect.addEventListener("click", unSelect);
 
 // function to unselect all currently selected tasks DOM elements
 function selectAll() {
@@ -60,6 +59,11 @@ function getTasks(): Task[] | null {
     return JSON.parse(tasks);
 }
 
+// function to get task by id
+function getTask(id: string): Task | undefined {
+    return tasks?.find((task) => task.id === id.trim());
+}
+
 // function to generate DOM task element
 function generateTask(task: Task) {
     const _task = document.createElement("div");
@@ -84,6 +88,7 @@ function generateTask(task: Task) {
                         <img src="${removeIcon}" class="w-full h-full" />
                     </button>
                 </div>`;
+    _task.addEventListener("mousedown", listenSelector);
     return _task;
 }
 
@@ -132,7 +137,5 @@ function createTask(task: CreateTask) {
         tasks = [task as Task];
     }
     localStorage.setItem("todo_app_tasks", JSON.stringify(tasks));
-    const _task = generateTask(task as Task);
-    _task.addEventListener("mousedown", listenSelector);
-    _tasks.appendChild(_task);
+    _tasks.appendChild(generateTask(task as Task));
 }
