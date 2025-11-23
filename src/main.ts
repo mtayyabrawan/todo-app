@@ -16,6 +16,9 @@ const _tasks = document.getElementById("tasks") as HTMLDivElement;
 const _taskList = _tasks.children as HTMLCollectionOf<HTMLDivElement>;
 const _selectAll = document.getElementById("select-all") as HTMLButtonElement;
 const _unSelect = document.getElementById("unselect") as HTMLButtonElement;
+const _removeSelect = document.getElementById(
+    "remove-selected"
+) as HTMLButtonElement;
 
 // global data variables
 let tasks = getTasks();
@@ -28,11 +31,17 @@ function generateTasks() {
         }
 }
 
+// function to set tasks array to localStorage
+function setTasks() {
+    localStorage.setItem("todo_app_tasks", JSON.stringify(tasks));
+}
+
 generateTasks();
 
 // global task selection and deselection listeners
 _selectAll.addEventListener("click", selectAll);
 _unSelect.addEventListener("click", unSelect);
+_removeSelect.addEventListener("click", removeSelected);
 
 // function to unselect all currently selected tasks DOM elements
 function selectAll() {
@@ -48,6 +57,17 @@ function unSelect() {
         if (!_task.classList.contains("selected")) continue;
         unSelectTask(_task);
     }
+}
+
+// function to remove selected tasks first removes DOM nodes and then removes from localStorage
+function removeSelected() {
+    const list = [..._taskList];
+    for (const _task of list) {
+        if (_task.classList.contains("selected")) {
+            removeTask(_task.getAttribute("_id") as string, _task);
+        }
+    }
+    setTasks();
 }
 
 // function to fetch all tasks from localStorage
@@ -136,6 +156,21 @@ function createTask(task: CreateTask) {
     } else {
         tasks = [task as Task];
     }
-    localStorage.setItem("todo_app_tasks", JSON.stringify(tasks));
+    setTasks();
     _tasks.appendChild(generateTask(task as Task));
+}
+
+// function to remove certian task weather from DOMor from localStorage
+async function removeTask(
+    id: string,
+    _task: HTMLDivElement,
+    db: boolean = false
+) {
+    const removingTask = getTask(id);
+    if (!removingTask) return "Task not found";
+    tasks = tasks?.filter((task) => task.id !== removingTask.id)!;
+    _task.remove();
+    if (db) {
+        setTasks();
+    }
 }
