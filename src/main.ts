@@ -43,6 +43,16 @@ _selectAll.addEventListener("click", selectAll);
 _unSelect.addEventListener("click", unSelect);
 _removeSelect.addEventListener("click", removeSelected);
 
+// listener to remove sngle task node
+function singleRemover(evt: MouseEvent) {
+    const btn = evt.currentTarget as HTMLButtonElement;
+    removeTask(
+        btn.id,
+        btn.parentElement?.parentElement as HTMLDivElement,
+        true
+    );
+}
+
 // function to unselect all currently selected tasks DOM elements
 function selectAll() {
     for (const _task of _taskList) {
@@ -98,16 +108,18 @@ function generateTask(task: Task) {
                 </div>
                 <p>${task.title}</p>
                 <div class="actions flex jc ac">
-                    <button class="view" title="View more details">
+                    <button class="view" title="View more details" id="${task.id}">
                         <img src="${detailIcon}" class="w-full h-full" />
                     </button>
-                    <button class="edit" title="Edit task">
+                    <button class="edit" title="Edit task" id="${task.id}">
                         <img src="${editIcon}" class="w-full h-full" />
                     </button>
-                    <button class="remove" title="Remove task">
+                    <button class="remove" title="Remove task" id="${task.id}">
                         <img src="${removeIcon}" class="w-full h-full" />
                     </button>
                 </div>`;
+    const _removeBtn = _task.children[2].children[2] as HTMLButtonElement;
+    _removeBtn.addEventListener("click", singleRemover);
     _task.addEventListener("mousedown", listenSelector);
     return _task;
 }
@@ -137,6 +149,9 @@ function unSelectTask(_task: HTMLDivElement) {
 // listener to task elements for selection
 function listenSelector(event: MouseEvent) {
     const _task = event.currentTarget as HTMLDivElement;
+    const _actions = _task.querySelector(".actions");
+    const _target = event.target as HTMLElement;
+    if (_actions?.contains(_target)) return;
     const selectorTimer = setTimeout(() => selectTask(_task), 200);
     _task.addEventListener("mouseup", () => {
         clearTimeout(selectorTimer);

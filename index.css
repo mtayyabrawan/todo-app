@@ -31,7 +31,8 @@ button {
     max-height: calc(100vh - 10rem);
     overflow-y: auto;
     margin-top: 0.75rem;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
+    animation: fade-up 300ms linear 1;
     .task {
         background-color: #faebd7;
         height: 4rem;
@@ -85,5 +86,11 @@ button {
                 }
             }
         }
+    }
+}
+@keyframes fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(2rem);
     }
 }
