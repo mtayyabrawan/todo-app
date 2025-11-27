@@ -6,6 +6,7 @@
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="/src/css/styles.css" />
         <link rel="stylesheet" href="/src/css/utils.css" />
+        <link rel="stylesheet" href="./index.css" />
         <title>Contact - Todo App with Shortcuts</title>
     </head>
     <body class="h-full w-full custom-scrollbar">
@@ -22,7 +23,92 @@
                     </nav>
                 </div>
             </header>
-            <main class="w-full h-full"></main>
+            <main class="w-full h-full">
+                <div id="success">
+                    <img src="/icon-success-check.svg" alt="success" />
+                    <h2>Message Sent!</h2>
+                    <p>
+                        Thanks for completing the form. We'll be in touch soon!
+                    </p>
+                </div>
+                <form method="post" novalidate>
+                    <h1 class="col-span-2">Contact Us</h1>
+                    <div class="form-field">
+                        <label for="firstname">First Name</label>
+                        <input
+                            type="text"
+                            name="firstname"
+                            id="firstname"
+                            autofocus
+                            required
+                        />
+                        <span class="error-msg">This field is required</span>
+                    </div>
+                    <div class="form-field">
+                        <label for="lastname">Last Name</label>
+                        <input
+                            type="text"
+                            name="lastname"
+                            id="lastname"
+                            required
+                        />
+                        <span class="error-msg">This field is required</span>
+                    </div>
+                    <div class="form-field col-span-2">
+                        <label for="email">Email Address</label>
+                        <input type="email" name="email" id="email" required />
+                        <span class="error-msg"
+                            >Please enter a valid email address</span
+                        >
+                    </div>
+                    <fieldset class="col-span-2">
+                        <legend>Query Type</legend>
+                        <div class="form-field">
+                            <input
+                                type="radio"
+                                name="query"
+                                id="general_enquiry"
+                                required
+                                value="general_enquiry"
+                            />
+                            <label for="general_enquiry">General Enquiry</label>
+                        </div>
+                        <div class="form-field">
+                            <input
+                                type="radio"
+                                name="query"
+                                id="support_request"
+                                required
+                                value="support_request"
+                            />
+                            <label for="support_request">Support Request</label>
+                        </div>
+                        <span class="error-msg">This field is required</span>
+                    </fieldset>
+                    <div class="form-field col-span-2">
+                        <label for="message">Message</label>
+                        <textarea
+                            name="message"
+                            id="message"
+                            required
+                        ></textarea>
+                        <span class="error-msg">This field is required</span>
+                    </div>
+                    <div class="form-field col-span-2">
+                        <input
+                            type="checkbox"
+                            name="consent"
+                            id="consent"
+                            required
+                        />
+                        <label for="consent"
+                            >I consent to being contacted by the team</label
+                        >
+                        <span class="error-msg">This field is required</span>
+                    </div>
+                    <button type="submit" class="col-span-2">Submit</button>
+                </form>
+            </main>
             <footer class="w-full flex jc ac">
                 <p>&copy; Copyright <span id="year"></span></p>
                 <p>
@@ -38,4 +124,5 @@
         </div>
     </body>
     <script type="module" src="/src/app.ts"></script>
+    <script type="module" src="/src/contact.ts"></script>
 </html>

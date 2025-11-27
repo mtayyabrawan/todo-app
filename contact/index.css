@@ -1,0 +1,202 @@
+:root {
+    /* colors */
+    --grey-dark: hsl(187, 24%, 22%);
+    --red: hsl(0, 66%, 54%);
+    --white: hsl(0, 0%, 100%);
+    /* fonts */
+    --lg: x-large;
+    --md: 1rem;
+    --sm: 0.85rem;
+    /* others */
+    --b-rad: 0.35rem;
+    --fb-margin: 3rem 2rem;
+    --ff-gap: 0.75rem;
+    --form-pg: 2rem;
+    --form-width: 42.25rem;
+    --g-gap: 2rem 1rem;
+    --input-pg: 0.75rem 1rem;
+    --lb-gap: 0.5rem;
+    --outline: 1px solid var(--grey-dark);
+    --para-space: 1.25lh;
+    --success-width: 25rem;
+    --footer-dir: row;
+}
+
+#success {
+    position: fixed;
+    top: -10rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--ff-gap);
+    width: var(--success-width);
+    background-color: var(--navlinkHv);
+    color: var(--white);
+    padding: 1rem;
+    border-radius: var(--b-rad);
+    h2 {
+        font-size: var(--md);
+    }
+    p {
+        font-weight: lighter;
+        flex-basis: 100%;
+        font-size: var(--sm);
+        line-height: var(--para-space);
+    }
+    &.animate {
+        animation: move-down 3s linear 1 reverse;
+    }
+}
+form {
+    display: grid;
+    gap: var(--g-gap);
+    grid-template-columns: repeat(2, 1fr);
+    background-color: var(--white);
+    max-inline-size: var(--form-width);
+    inline-size: 100%;
+    margin-inline: auto;
+    margin-block: var(--fb-margin);
+    padding: var(--form-pg);
+    border-radius: calc(2 * var(--b-rad));
+    .col-span-2 {
+        grid-column: span 2;
+    }
+    h1 {
+        font-size: var(--lg);
+    }
+    .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: var(--ff-gap);
+        &:has(input + label) {
+            flex-direction: row;
+            justify-content: start;
+            > label {
+                cursor: pointer;
+                text-wrap: nowrap;
+            }
+            &:has([type="checkbox"]) {
+                flex-wrap: wrap;
+            }
+        }
+        input,
+        textarea {
+            padding: var(--input-pg);
+            font-size: var(--md);
+            border: none;
+            border-radius: var(--b-rad);
+            outline: var(--outline);
+            cursor: pointer;
+            &:focus-visible,
+            &:hover {
+                outline-color: var(--navbarBg);
+                outline-width: 1.75px;
+            }
+            &[type="radio"],
+            &[type="checkbox"] {
+                outline: none;
+            }
+            &[type="checkbox"] ~ .error-msg {
+                flex-basis: 100%;
+            }
+            &:user-invalid {
+                outline-color: var(--red);
+            }
+        }
+        textarea {
+            box-sizing: content-box;
+            height: 2.5lh;
+            line-height: var(--para-space);
+            resize: none;
+        }
+    }
+    > .form-field > label,
+    legend {
+        display: flex;
+        gap: var(--lb-gap);
+        font-size: var(--sm);
+        &:after {
+            content: "*";
+            color: var(--navbarBg);
+        }
+    }
+    fieldset {
+        display: inherit;
+        gap: inherit;
+        row-gap: var(--ff-gap);
+        grid-template-columns: inherit;
+        padding-top: var(--ff-gap);
+        border: none;
+        > .form-field {
+            position: relative;
+            padding: var(--input-pg);
+            background-color: var(--white);
+            border-radius: var(--b-rad);
+            outline: var(--outline);
+            label::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+            }
+            &:has(:checked) {
+                background-color: var(--mainBg);
+                outline-color: var(--navbarBg);
+            }
+        }
+    }
+    button {
+        padding: var(--input-pg);
+        border-radius: var(--b-rad);
+        background-color: var(--navbarBg);
+        color: white;
+        &:focus-visible {
+            background-color: var(--navlinkBg);
+        }
+        &:hover {
+            background-color: var(--navlinkBg);
+        }
+        &:disabled {
+            cursor: not-allowed;
+        }
+    }
+    .error-msg {
+        display: none;
+    }
+    > :has(:user-invalid) > .error-msg {
+        display: block;
+        color: var(--red);
+        font-size: var(--sm);
+    }
+}
+
+@media screen and (max-width: 525px) {
+    :root {
+        --footer-dir: column;
+        --success-width: 20rem;
+    }
+    form :has(> label) {
+        grid-column: span 2;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    :root {
+        --fb-margin: 2rem;
+        --ff-gap: 0.5rem;
+        --form-pg: 1rem;
+        --form-width: 100%;
+        --g-gap: 1rem 0rem;
+        --lb-gap: 0.25rem;
+        --success-width: 90%;
+    }
+}
+
+@keyframes move-down {
+    25%,
+    100% {
+        top: 2rem;
+    }
+}

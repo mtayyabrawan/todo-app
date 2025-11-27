@@ -1,3 +1,9 @@
+@font-face {
+    font-family: "Karla";
+    src: url("/fonts/Karla-VariableFont_wght.ttf") format("TrueType");
+    font-weight: 400 700;
+}
+
 /* global styles */
 :root {
     --mainBg: #d891d8;
@@ -10,12 +16,13 @@
 }
 
 * {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Karla, Tahoma, Geneva, Verdana, sans-serif;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     transition: all ease-in-out 400ms;
     scroll-behavior: smooth;
+    accent-color: var(--navbarBg);
     &::-webkit-scrollbar {
         display: none;
     }
@@ -49,6 +56,7 @@ button {
 }
 
 body {
+    position: relative;
     background-color: var(--mainBg);
     color: var(--mainFg);
 }
