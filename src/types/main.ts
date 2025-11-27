@@ -12,3 +12,8 @@ export type Task = {
 
 export type CreateTask = Omit<Task, "id" | "createdAt" | "status"> &
     Partial<Pick<Task, "id" | "status" | "createdAt">>;
+
+export type ContactData = Record<
+    "firstname" | "lastname" | "email" | "query" | "message" | "consent",
+    string
+>;
