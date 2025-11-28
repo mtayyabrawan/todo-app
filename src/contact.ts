@@ -41,13 +41,13 @@ _form.addEventListener("submit", (event) => {
         _formBtn.disabled = false;
         return;
     }
-    _form.reset();
     const fd = new FormData(_target);
     const formData: Partial<ContactData> = {};
     fd.forEach((val, key) => {
         formData[key as keyof ContactData] = val.toString().trim();
     });
     // Do some api stuff here
+    _form.reset();
     _formBtn.disabled = false;
     _success.classList.add("animate");
 });
