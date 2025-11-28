@@ -34,7 +34,18 @@ _form.addEventListener("submit", (event) => {
     const fd = new FormData(_target);
     const formData: Partial<ContactData> = {};
     fd.forEach((val, key) => {
-        formData[key as keyof ContactData] = val.toString().trim();
+        const value = val.toString().trim();
+        switch (key) {
+            case "query":
+                formData.query = value as ContactData["query"];
+                break;
+            case "consent":
+                formData.consent = value as ContactData["consent"];
+                break;
+            default:
+                formData[key as keyof Omit<ContactData, "query" | "consent">] =
+                    value;
+        }
     });
     // Do some api stuff here
     _form.reset();
