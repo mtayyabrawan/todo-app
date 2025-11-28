@@ -1,3 +1,5 @@
+import { cleaner, enterSubmit } from "./utils/form";
+
 import type { ContactData } from "./types/main";
 
 const _form = document.querySelector("form") as HTMLFormElement;
@@ -8,14 +10,6 @@ const _inputs = document.querySelectorAll(
 const _textarea = document.querySelector("textarea") as HTMLTextAreaElement;
 const _success = document.querySelector("#success") as HTMLDivElement;
 
-function cleaner(evt: InputEvent) {
-    const _target = evt.currentTarget as HTMLInputElement | HTMLTextAreaElement;
-    let value = _target.value.trimStart();
-    _target.value = value
-        .replace(/[\n]+/g, "\n")
-        .replace(/([^\n^\w][\s])+/g, " ");
-}
-
 for (const _input of [..._inputs, _textarea]) {
     _input.addEventListener(
         "input",
@@ -23,11 +17,7 @@ for (const _input of [..._inputs, _textarea]) {
     );
 }
 
-_textarea.addEventListener("keypress", (evt) => {
-    if (evt.key === "Enter" && !evt.shiftKey && !evt.altKey && !evt.ctrlKey) {
-        _formBtn.click();
-    }
-});
+_textarea.addEventListener("keypress", (evt) => enterSubmit(evt, _formBtn));
 
 _form.addEventListener("submit", (event) => {
     _formBtn.disabled = true;
