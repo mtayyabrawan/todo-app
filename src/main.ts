@@ -6,6 +6,8 @@ import editIcon from "./assets/edit.svg";
 import removeIcon from "./assets/remove.svg";
 
 // utilities
+import capitalize from "./utils/capitalize";
+import { cleaner, enterSubmit } from "./utils/form";
 import randomId from "./utils/randomId";
 
 // types
@@ -19,6 +21,15 @@ const _unSelect = document.getElementById("unselect") as HTMLButtonElement;
 const _removeSelect = document.getElementById(
     "remove-selected"
 ) as HTMLButtonElement;
+const _taskForm = document.querySelector("form") as HTMLFormElement;
+const _categoryList = _taskForm.children[3].children[2] as HTMLDataListElement;
+const _addNewBtn = _taskForm.children[5] as HTMLButtonElement;
+const _textareas = document.querySelectorAll(
+    "textarea"
+) as NodeListOf<HTMLTextAreaElement>;
+const _inputs = document.querySelectorAll(
+    "input"
+) as NodeListOf<HTMLInputElement>;
 
 // global data variables
 let tasks = getTasks();
@@ -98,7 +109,7 @@ function getTask(id: string): Task | undefined {
 function generateTask(task: Task) {
     const _task = document.createElement("div");
     _task.setAttribute("_id", task.id);
-    _task.classList.add(...["task", "w-full", "flex", "ac"]);
+    _task.classList.add(...["task", "w-full", "flex", "ac", task.status]);
     _task.innerHTML = `<div class="selection-manager hidden">
                     <input type="checkbox" id="${task.id}" class="hidden" />
                     <label for="${task.id}" class="w-full h-full">
@@ -189,3 +200,56 @@ async function removeTask(
         setTasks();
     }
 }
+
+for (const _input of [..._inputs, ..._textareas]) {
+    _input.addEventListener(
+        "input",
+        cleaner as EventListenerOrEventListenerObject
+    );
+}
+
+for (const _textarea of [..._textareas]) {
+    _textarea.addEventListener("keypress", (evt) =>
+        enterSubmit(evt, _addNewBtn)
+    );
+}
+
+// loads existing task categories to te datalist
+function loadCategoryList() {
+    _categoryList.innerHTML = ``;
+    if (tasks !== null) {
+        const categories = new Set(tasks?.map((task) => task.category));
+        for (const category of categories) {
+            _categoryList.innerHTML += `<option value="${capitalize(category)}">${capitalize(category)}</option>`;
+        }
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadCategoryList);
+
+// task creation listener
+function taskCreator(event: SubmitEvent) {
+    event.preventDefault();
+    _addNewBtn.disabled = true;
+    const _target = event.currentTarget as HTMLFormElement;
+    const invalidField = _target.querySelector(":user-invalid") as
+        | HTMLInputElement
+        | HTMLTextAreaElement;
+    if (invalidField) {
+        invalidField.focus();
+        _addNewBtn.disabled = false;
+        return;
+    }
+    const fd = new FormData(_target);
+    const formData: any = {};
+    fd.forEach((val, key) => {
+        formData[key as keyof CreateTask] = val.toString().trim();
+    });
+    formData.category = formData.category.toLowerCase();
+    createTask(formData);
+    loadCategoryList();
+    _taskForm.reset();
+    _addNewBtn.disabled = false;
+}
+
+_taskForm.addEventListener("submit", taskCreator);

@@ -26,9 +26,7 @@
     &::-webkit-scrollbar {
         display: none;
     }
-    &::selection {
-        background-color: transparent;
-    }
+    user-select: none;
 }
 .custom-scrollbar {
     &::-webkit-scrollbar {

@@ -1,9 +1,38 @@
+:root {
+    --fb-margin: 1rem 0rem;
+}
 h1 {
     font-size: larger;
     text-align: center;
     font-weight: 500;
 }
-button {
+#main-actions {
+    width: 70%;
+    margin-top: 2rem;
+    gap: 1rem;
+    label {
+        border-radius: 50%;
+        height: 2rem;
+        width: 2rem;
+        font-size: larger;
+        font-weight: 700;
+        padding: 0.35rem;
+        background-color: var(--white);
+        cursor: pointer;
+        &:hover {
+            background-color: var(--navlinkHv);
+            color: var(--navbarFg);
+        }
+        svg {
+            fill: black;
+            &:hover {
+                fill: var(--navbarFg);
+            }
+        }
+    }
+}
+#selected-actions button,
+#tasks button {
     padding: 0.25rem;
     border-radius: 0.25rem;
     height: 1.75rem;
@@ -11,7 +40,7 @@ button {
 }
 #selected-actions {
     width: 70%;
-    margin-top: 2rem;
+    margin-top: 1rem;
     padding-inline: 1rem;
     justify-content: end;
     column-gap: 0.5rem;
@@ -30,7 +59,7 @@ button {
     width: 70%;
     max-height: calc(100vh - 10rem);
     overflow-y: auto;
-    margin-top: 0.75rem;
+    margin-top: 0.5rem;
     padding: 0.5rem 1rem;
     animation: fade-up 300ms linear 1;
     .task {
@@ -41,6 +70,12 @@ button {
         padding-inline: 1rem;
         justify-content: start;
         gap: 1.25rem;
+        &.done {
+            background-color: #a7ffa7;
+        }
+        &.overdue {
+            background-color: #f58888;
+        }
         &.selected {
             background-color: #e073e0;
         }
@@ -88,6 +123,20 @@ button {
         }
     }
 }
+
+#task-form {
+    display: none;
+    animation: fade-up 300ms linear 1;
+}
+
+#add-new:checked ~ #tasks,
+#add-new:checked ~ #selected-actions {
+    display: none;
+}
+#add-new:checked ~ #task-form {
+    display: grid;
+}
+
 @keyframes fade-up {
     from {
         opacity: 0;
