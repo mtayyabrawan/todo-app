@@ -241,12 +241,19 @@ function taskCreator(event: SubmitEvent) {
         return;
     }
     const fd = new FormData(_target);
-    const formData: any = {};
+    const formData: Partial<CreateTask> = {};
     fd.forEach((val, key) => {
-        formData[key as keyof CreateTask] = val.toString().trim();
+        const value = val.toString().trim();
+        switch (key) {
+            case "status":
+                formData.status = value as CreateTask["status"];
+                break;
+            default:
+                formData[key as keyof Omit<CreateTask, "status">] = value;
+        }
     });
-    formData.category = formData.category.toLowerCase();
-    createTask(formData);
+    if (formData.category) formData.category = formData.category.toLowerCase();
+    createTask(formData as CreateTask);
     loadCategoryList();
     _taskForm.reset();
     _addNewBtn.disabled = false;
