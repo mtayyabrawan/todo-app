@@ -10,7 +10,7 @@ h1 {
     width: 70%;
     margin-top: 2rem;
     gap: 1rem;
-    label {
+    button {
         border-radius: 50%;
         height: 2rem;
         width: 2rem;
@@ -22,12 +22,12 @@ h1 {
         &:hover {
             background-color: var(--navlinkHv);
             color: var(--navbarFg);
+            svg {
+                fill: var(--navbarFg);
+            }
         }
         svg {
             fill: black;
-            &:hover {
-                fill: var(--navbarFg);
-            }
         }
     }
 }
@@ -44,9 +44,7 @@ h1 {
     padding-inline: 1rem;
     justify-content: end;
     column-gap: 0.5rem;
-    &:has(+ #tasks > .selected) {
-        display: flex;
-    }
+    animation: fade-up 300ms linear 1;
 }
 .remove {
     background-color: #e63e3e;
@@ -125,16 +123,7 @@ h1 {
 }
 
 #task-form {
-    display: none;
     animation: fade-up 300ms linear 1;
-}
-
-#add-new:checked ~ #tasks,
-#add-new:checked ~ #selected-actions {
-    display: none;
-}
-#add-new:checked ~ #task-form {
-    display: grid;
 }
 
 @keyframes fade-up {

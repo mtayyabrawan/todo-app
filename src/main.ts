@@ -14,6 +14,7 @@ import randomId from "./utils/randomId";
 import type { CreateTask, Task } from "./types/main";
 
 // DOM elements
+const _main = document.querySelector("main") as HTMLElement;
 const _tasks = document.getElementById("tasks") as HTMLDivElement;
 const _taskList = _tasks.children as HTMLCollectionOf<HTMLDivElement>;
 const _selectAll = document.getElementById("select-all") as HTMLButtonElement;
@@ -30,9 +31,15 @@ const _textareas = document.querySelectorAll(
 const _inputs = document.querySelectorAll(
     "input"
 ) as NodeListOf<HTMLInputElement>;
+const _newTaskBtn = document.getElementById("add-task") as HTMLButtonElement;
+const _selectedActions = document.getElementById(
+    "selected-actions"
+) as HTMLDivElement;
 
 // global data variables
 let tasks = getTasks();
+
+let selectedTasks = 0;
 
 // function to generate all tasks
 function generateTasks() {
@@ -137,6 +144,12 @@ function generateTask(task: Task) {
 
 // function that controls selection of tasks element in DOM
 function selectTask(_task: HTMLDivElement) {
+    if (_task.classList.contains("selected")) return;
+    selectedTasks++;
+    if (!_selectedActions.classList.contains("flex")) {
+        _selectedActions.classList.remove("hidden");
+        _selectedActions.classList.add("flex");
+    }
     const _select = _task.children[0] as HTMLDivElement;
     const _selectionBtn = _select.children[0] as HTMLInputElement;
     const _actions = _task.children[2] as HTMLDivElement;
@@ -150,6 +163,12 @@ function selectTask(_task: HTMLDivElement) {
 
 // function to unselect a certian task
 function unSelectTask(_task: HTMLDivElement) {
+    if (!_task.classList.contains("selected")) return;
+    selectedTasks--;
+    if (selectedTasks === 0) {
+        _selectedActions.classList.add("hidden");
+        _selectedActions.classList.remove("flex");
+    }
     const _select = _task.children[0] as HTMLDivElement;
     const _actions = _task.children[2] as HTMLDivElement;
     _task.classList.remove("selected");
@@ -260,3 +279,8 @@ function taskCreator(event: SubmitEvent) {
 }
 
 _taskForm.addEventListener("submit", taskCreator);
+
+_newTaskBtn.addEventListener("click", () => {
+    _main.children[1].classList.add("hidden");
+    _main.children[2].classList.add("hidden");
+});

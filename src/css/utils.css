@@ -13,6 +13,9 @@
 .flex {
     display: flex;
 }
+.grid {
+    display: grid;
+}
 
 .jb {
     justify-content: space-between;
