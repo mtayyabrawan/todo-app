@@ -14,7 +14,7 @@ import randomId from "./utils/randomId";
 import type { CreateTask, Task } from "./types/main";
 
 // DOM elements
-const _main = document.querySelector("main") as HTMLElement;
+const _searchForm = document.getElementById("search-form") as HTMLDivElement;
 const _tasks = document.getElementById("tasks") as HTMLDivElement;
 const _taskList = _tasks.children as HTMLCollectionOf<HTMLDivElement>;
 const _selectAll = document.getElementById("select-all") as HTMLButtonElement;
@@ -22,7 +22,7 @@ const _unSelect = document.getElementById("unselect") as HTMLButtonElement;
 const _removeSelect = document.getElementById(
     "remove-selected"
 ) as HTMLButtonElement;
-const _taskForm = document.querySelector("form") as HTMLFormElement;
+const _taskForm = document.getElementById("task-form") as HTMLFormElement;
 const _categoryList = _taskForm.children[3].children[2] as HTMLDataListElement;
 const _addNewBtn = _taskForm.children[5] as HTMLButtonElement;
 const _textareas = document.querySelectorAll(
@@ -32,6 +32,9 @@ const _inputs = document.querySelectorAll(
     "input"
 ) as NodeListOf<HTMLInputElement>;
 const _newTaskBtn = document.getElementById("add-task") as HTMLButtonElement;
+const _searchTaskBtn = document.getElementById(
+    "search-tasks"
+) as HTMLButtonElement;
 const _selectedActions = document.getElementById(
     "selected-actions"
 ) as HTMLDivElement;
@@ -280,7 +283,35 @@ function taskCreator(event: SubmitEvent) {
 
 _taskForm.addEventListener("submit", taskCreator);
 
+function selectedActionsHandler() {
+    _tasks.classList.remove("hidden");
+    if (selectedTasks > 0) {
+        _selectedActions.classList.remove("hidden");
+    } else {
+        _selectedActions.classList.add("hidden");
+    }
+}
+
 _newTaskBtn.addEventListener("click", () => {
-    _main.children[1].classList.add("hidden");
-    _main.children[2].classList.add("hidden");
+    if (_taskForm.classList.contains("hidden")) {
+        _tasks.classList.add("hidden");
+        _taskForm.classList.remove("hidden");
+        _searchForm.classList.add("hidden");
+        _selectedActions.classList.add("hidden");
+    } else {
+        _taskForm.classList.add("hidden");
+        selectedActionsHandler();
+    }
+});
+
+_searchTaskBtn.addEventListener("click", () => {
+    if (_searchForm.classList.contains("hidden")) {
+        _tasks.classList.add("hidden");
+        _taskForm.classList.add("hidden");
+        _searchForm.classList.remove("hidden");
+        _selectedActions.classList.add("hidden");
+    } else {
+        _searchForm.classList.add("hidden");
+        selectedActionsHandler();
+    }
 });

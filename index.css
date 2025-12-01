@@ -10,6 +10,7 @@ h1 {
     width: 70%;
     margin-top: 2rem;
     gap: 1rem;
+    animation: fade-up 300ms linear 1;
     button {
         border-radius: 50%;
         height: 2rem;
@@ -123,6 +124,10 @@ h1 {
 }
 
 #task-form {
+    animation: fade-up 300ms linear 1;
+}
+
+#search-form {
     animation: fade-up 300ms linear 1;
 }
 
