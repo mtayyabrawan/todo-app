@@ -1,4 +1,4 @@
-type Status = "pending" | "done" | "overdue";
+export type Status = "pending" | "done" | "overdue";
 
 export type Task = {
     id: string;

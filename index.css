@@ -131,6 +131,10 @@ h1 {
     animation: fade-up 300ms linear 1;
 }
 
+#settings-form {
+    animation: fade-up 300ms linear 1;
+}
+
 @keyframes fade-up {
     from {
         opacity: 0;
