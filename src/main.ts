@@ -11,12 +11,22 @@ import { cleaner, enterSubmit } from "./utils/form";
 import randomId from "./utils/randomId";
 
 // types
-import type { CreateTask, Task } from "./types/main";
+import type { CreateTask, Status, Task } from "./types/main";
 
 // DOM elements
 const _searchForm = document.getElementById("search-form") as HTMLDivElement;
+const _settingsForm = document.getElementById(
+    "settings-form"
+) as HTMLDivElement;
 const _tasks = document.getElementById("tasks") as HTMLDivElement;
 const _taskList = _tasks.children as HTMLCollectionOf<HTMLDivElement>;
+const _markDone = document.getElementById("mark-done") as HTMLButtonElement;
+const _markPending = document.getElementById(
+    "mark-pending"
+) as HTMLButtonElement;
+const _markOverdue = document.getElementById(
+    "mark-overdue"
+) as HTMLButtonElement;
 const _selectAll = document.getElementById("select-all") as HTMLButtonElement;
 const _unSelect = document.getElementById("unselect") as HTMLButtonElement;
 const _removeSelect = document.getElementById(
@@ -31,6 +41,9 @@ const _textareas = document.querySelectorAll(
 const _inputs = document.querySelectorAll(
     "input"
 ) as NodeListOf<HTMLInputElement>;
+const _settingsBtn = document.getElementById(
+    "settings-btn"
+) as HTMLButtonElement;
 const _newTaskBtn = document.getElementById("add-task") as HTMLButtonElement;
 const _searchTaskBtn = document.getElementById(
     "search-tasks"
@@ -60,6 +73,9 @@ function setTasks() {
 generateTasks();
 
 // global task selection and deselection listeners
+_markDone.addEventListener("click", () => markStatusSelected("done"));
+_markPending.addEventListener("click", () => markStatusSelected("pending"));
+_markOverdue.addEventListener("click", () => markStatusSelected("overdue"));
 _selectAll.addEventListener("click", selectAll);
 _unSelect.addEventListener("click", unSelect);
 _removeSelect.addEventListener("click", removeSelected);
@@ -99,6 +115,17 @@ function removeSelected() {
         }
     }
     setTasks();
+}
+
+// function to mark status of selected tasks
+function markStatusSelected(status: Status) {
+    for (const _task of _taskList) {
+        if (_task.classList.contains("selected")) {
+            markStatus(_task, status);
+        }
+    }
+    setTasks();
+    unSelect();
 }
 
 // function to fetch all tasks from localStorage
@@ -297,6 +324,7 @@ _newTaskBtn.addEventListener("click", () => {
         _tasks.classList.add("hidden");
         _taskForm.classList.remove("hidden");
         _searchForm.classList.add("hidden");
+        _settingsForm.classList.add("hidden");
         _selectedActions.classList.add("hidden");
     } else {
         _taskForm.classList.add("hidden");
@@ -309,9 +337,48 @@ _searchTaskBtn.addEventListener("click", () => {
         _tasks.classList.add("hidden");
         _taskForm.classList.add("hidden");
         _searchForm.classList.remove("hidden");
+        _settingsForm.classList.add("hidden");
         _selectedActions.classList.add("hidden");
     } else {
         _searchForm.classList.add("hidden");
         selectedActionsHandler();
     }
 });
+
+_settingsBtn.addEventListener("click", () => {
+    if (_settingsForm.classList.contains("hidden")) {
+        _tasks.classList.add("hidden");
+        _taskForm.classList.add("hidden");
+        _searchForm.classList.add("hidden");
+        _settingsForm.classList.remove("hidden");
+        _selectedActions.classList.add("hidden");
+    } else {
+        _settingsForm.classList.add("hidden");
+        selectedActionsHandler();
+    }
+});
+
+function markStatus(
+    _task: HTMLDivElement,
+    status: Status = "done",
+    db: boolean = false
+) {
+    const task = getTask(_task.getAttribute("_id") as string);
+    if (!task || task.status === status) return "Task not found";
+    if (tasks !== null) {
+        tasks = tasks.map(($task) => {
+            return {
+                ...$task,
+                status: $task.id === task.id ? status : $task.status,
+            };
+        });
+    }
+    if (db) setTasks();
+    ["done", "pending", "overdue"].forEach((sts) => {
+        if (sts === status) {
+            _task.classList.add(sts);
+        } else {
+            _task.classList.remove(sts);
+        }
+    });
+}

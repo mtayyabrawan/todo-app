@@ -56,7 +56,11 @@
                             />
                         </svg>
                     </button>
-                    <button class="flex jc ac" title="Settings">
+                    <button
+                        id="settings-btn"
+                        class="flex jc ac"
+                        title="Settings"
+                    >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 640 640"
@@ -69,6 +73,27 @@
                     </button>
                 </div>
                 <div id="selected-actions" class="mxa hidden ac">
+                    <button id="mark-done" title="Mark as done">
+                        <img
+                            src="/src/assets/done.svg"
+                            alt="mark-done"
+                            class="w-full h-full"
+                        />
+                    </button>
+                    <button id="mark-pending" title="Mark as pending">
+                        <img
+                            src="/src/assets/pending.svg"
+                            alt="mark-pending"
+                            class="w-full h-full"
+                        />
+                    </button>
+                    <button id="mark-overdue" title="Mark as overdue">
+                        <img
+                            src="/src/assets/overdue.svg"
+                            alt="mark-overdue"
+                            class="w-full h-full"
+                        />
+                    </button>
                     <button id="select-all" title="Select all tasks">
                         <img
                             src="/src/assets/selected.svg"
@@ -143,6 +168,10 @@
                     <button type="submit" class="col-span-2">Add now</button>
                 </form>
                 <form id="search-form" class="hidden">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Iure, magnam?
+                </form>
+                <form id="settings-form" class="hidden">
                     Lorem ipsum dolor sit amet consectetur, adipisicing elit.
                     Iure, magnam?
                 </form>
