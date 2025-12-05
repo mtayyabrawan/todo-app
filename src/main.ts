@@ -224,7 +224,7 @@ function listenSelector(event: MouseEvent) {
 // function to create new tasks and append it to DOM
 function createTask(task: CreateTask) {
     task.id = randomId({ inner: 6, outer: 4 });
-    if (!task.status) task.status = "pending";
+    task.status = task.status || "pending";
     task.createdAt = new Date().toLocaleString();
     if (tasks) {
         tasks.push(task as Task);
