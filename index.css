@@ -6,6 +6,61 @@ h1 {
     text-align: center;
     font-weight: 500;
 }
+#edit-tasks,
+#view-tasks {
+    --fb-margin: 0;
+    appearance: none;
+    top: 6rem;
+    left: 50%;
+    z-index: 5;
+    transform: translateX(-50%);
+    background: none;
+    border: none;
+    outline: none;
+    &::backdrop {
+        backdrop-filter: blur(6px);
+        background-color: rgba(0, 0, 0, 0.25);
+    }
+}
+#view-tasks {
+    &[open] {
+        display: grid;
+    }
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--g-gap);
+    place-items: center;
+    width: var(--form-width);
+    background-color: var(--white);
+    max-inline-size: var(--form-width);
+    inline-size: 100%;
+    margin-block: var(--fb-margin);
+    padding: var(--form-pg);
+    border-radius: calc(2 * var(--b-rad));
+    p {
+        width: 100%;
+        margin-block: 0.25rem;
+        padding: 0.5rem;
+        background-color: rgb(211, 199, 199);
+        border-radius: var(--b-rad);
+        text-align: justify;
+        max-height: 14rem;
+        overflow-y: auto;
+    }
+    span {
+        width: 100%;
+        padding: 0.5rem;
+        background-color: var(--navbarBg);
+        color: var(--navbarFg);
+        border-radius: var(--b-rad);
+        text-align: center;
+        &#done {
+            background-color: #30a130;
+        }
+        &#overdue {
+            background-color: #c73e3e;
+        }
+    }
+}
 #main-actions {
     width: 70%;
     margin-top: 2rem;

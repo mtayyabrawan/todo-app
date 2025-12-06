@@ -9,6 +9,7 @@ import removeIcon from "./assets/remove.svg";
 import capitalize from "./utils/capitalize";
 import { cleaner, enterSubmit } from "./utils/form";
 import randomId from "./utils/randomId";
+import formatDate from "./utils/formatDate";
 
 // types
 import type { CreateTask, Status, Task } from "./types/main";
@@ -33,7 +34,9 @@ const _removeSelect = document.getElementById(
     "remove-selected"
 ) as HTMLButtonElement;
 const _taskForm = document.getElementById("task-form") as HTMLFormElement;
-const _categoryList = _taskForm.children[3].children[2] as HTMLDataListElement;
+const _categoryLists = document.getElementsByClassName(
+    "categoryList"
+) as HTMLCollectionOf<HTMLDataListElement>;
 const _addNewBtn = _taskForm.children[5] as HTMLButtonElement;
 const _textareas = document.querySelectorAll(
     "textarea"
@@ -51,6 +54,9 @@ const _searchTaskBtn = document.getElementById(
 const _selectedActions = document.getElementById(
     "selected-actions"
 ) as HTMLDivElement;
+const _editModal = document.getElementById("edit-tasks") as HTMLDialogElement;
+const _viewModal = document.getElementById("view-tasks") as HTMLDialogElement;
+const _editForm = document.getElementById("edit-form") as HTMLFormElement;
 
 // global data variables
 let tasks = getTasks();
@@ -111,6 +117,7 @@ function removeSelected() {
     const list = [..._taskList];
     for (const _task of list) {
         if (_task.classList.contains("selected")) {
+            unSelectTask(_task);
             removeTask(_task.getAttribute("_id") as string, _task);
         }
     }
@@ -166,7 +173,11 @@ function generateTask(task: Task) {
                         <img src="${removeIcon}" class="w-full h-full" />
                     </button>
                 </div>`;
+    const _viewBtn = _task.children[2].children[0] as HTMLButtonElement;
+    const _editBtn = _task.children[2].children[1] as HTMLButtonElement;
     const _removeBtn = _task.children[2].children[2] as HTMLButtonElement;
+    _viewBtn.addEventListener("click", toggleModal);
+    _editBtn.addEventListener("click", toggleModal);
     _removeBtn.addEventListener("click", singleRemover);
     _task.addEventListener("mousedown", listenSelector);
     return _task;
@@ -235,6 +246,22 @@ function createTask(task: CreateTask) {
     _tasks.appendChild(generateTask(task as Task));
 }
 
+function editTask(task: Task) {
+    const { id } = task;
+    if (tasks) {
+        tasks = tasks.map(($task) => {
+            if (id === $task.id) return task;
+            return $task;
+        }) as Task[];
+    }
+    setTasks();
+    const _task = [..._taskList].find(
+        ($task) => $task.getAttribute("_id") === id
+    ) as HTMLDivElement;
+    _task.remove();
+    _tasks.appendChild(generateTask(task as Task));
+}
+
 // function to remove certian task weather from DOMor from localStorage
 async function removeTask(
     id: string,
@@ -265,28 +292,31 @@ for (const _textarea of [..._textareas]) {
 
 // loads existing task categories to te datalist
 function loadCategoryList() {
-    _categoryList.innerHTML = ``;
-    if (tasks !== null) {
-        const categories = new Set(tasks?.map((task) => task.category));
-        for (const category of categories) {
-            _categoryList.innerHTML += `<option value="${capitalize(category)}">${capitalize(category)}</option>`;
+    [..._categoryLists].forEach((_categoryList) => {
+        _categoryList.innerHTML = ``;
+        if (tasks !== null) {
+            const categories = new Set(tasks.map((task) => task.category));
+            for (const category of categories) {
+                _categoryList.innerHTML += `<option value="${capitalize(category)}">${capitalize(category)}</option>`;
+            }
         }
-    }
+    });
 }
 
 document.addEventListener("DOMContentLoaded", loadCategoryList);
 
 // task creation listener
-function taskCreator(event: SubmitEvent) {
+function taskSubmitHandler(event: SubmitEvent) {
     event.preventDefault();
-    _addNewBtn.disabled = true;
     const _target = event.currentTarget as HTMLFormElement;
+    const _submitBtn = _target.querySelector("button") as HTMLButtonElement;
+    _submitBtn.disabled = true;
     const invalidField = _target.querySelector(":user-invalid") as
         | HTMLInputElement
         | HTMLTextAreaElement;
     if (invalidField) {
         invalidField.focus();
-        _addNewBtn.disabled = false;
+        _submitBtn.disabled = false;
         return;
     }
     const fd = new FormData(_target);
@@ -302,13 +332,22 @@ function taskCreator(event: SubmitEvent) {
         }
     });
     if (formData.category) formData.category = formData.category.toLowerCase();
-    createTask(formData as CreateTask);
+    const formAction = _target.getAttribute("data-form-action") as
+        | "create"
+        | "edit";
+    if (formAction === "create") {
+        createTask(formData as CreateTask);
+    } else {
+        editTask(formData as Task);
+        _editModal.close();
+    }
     loadCategoryList();
-    _taskForm.reset();
-    _addNewBtn.disabled = false;
+    _target.reset();
+    _submitBtn.disabled = false;
 }
 
-_taskForm.addEventListener("submit", taskCreator);
+_taskForm.addEventListener("submit", taskSubmitHandler);
+_editForm.addEventListener("submit", taskSubmitHandler);
 
 function selectedActionsHandler() {
     _tasks.classList.remove("hidden");
@@ -370,6 +409,10 @@ function markStatus(
             return {
                 ...$task,
                 status: $task.id === task.id ? status : $task.status,
+                dueDate:
+                    status === "overdue"
+                        ? formatDate(new Date().toISOString())
+                        : $task.dueDate,
             };
         });
     }
@@ -382,3 +425,42 @@ function markStatus(
         }
     });
 }
+
+function toggleModal(evt: MouseEvent) {
+    const _target = evt.currentTarget as HTMLButtonElement;
+    const id = _target.id;
+    const action = _target.className as "edit" | "view";
+    if (tasks) {
+        const task = tasks.find(($task) => $task.id === id) as Task;
+        if (action === "edit") {
+            _editModal.showModal();
+            const _inputs = _editForm.querySelectorAll(
+                "input,textarea"
+            ) as NodeListOf<HTMLInputElement | HTMLTextAreaElement>;
+            _inputs[0].value = task.title;
+            _inputs[1].value = formatDate(new Date(task.dueDate).toISOString());
+            _inputs[2].value = capitalize(task.category);
+            _inputs[3].value = task.description;
+            _inputs[4].value = task.id;
+            _inputs[5].value = task.status;
+            _inputs[6].value = task.createdAt;
+        } else {
+            _viewModal.showModal();
+            const _nodes = _viewModal.children as HTMLCollectionOf<HTMLElement>;
+            _nodes[0].innerText = task.title;
+            _nodes[1].innerText = task.description;
+            _nodes[2].innerText = capitalize(task.category);
+            _nodes[3].innerText = capitalize(task.status);
+            _nodes[3].id = task.status;
+            _nodes[4].innerText = `Due Date : ${new Date(task.dueDate).toLocaleString()}`;
+            _nodes[5].innerText = `Created At : ${new Date(task.createdAt).toLocaleString()}`;
+        }
+    }
+}
+
+[_editModal, _viewModal].forEach((_modal) => {
+    _modal.addEventListener("click", (evt) => {
+        const _target = evt.target as HTMLElement;
+        if (_modal.isSameNode(_target)) _modal.close();
+    });
+});

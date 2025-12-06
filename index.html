@@ -12,6 +12,75 @@
     </head>
     <body class="h-full w-full custom-scrollbar">
         <div id="container" class="mxa h-full w-full">
+            <dialog id="view-tasks">
+                <h1 class="col-span-2"></h1>
+                <p class="col-span-2 custom-scrollbar"></p>
+                <span></span>
+                <span class="task-status"></span>
+                <span></span>
+                <span></span>
+            </dialog>
+            <dialog id="edit-tasks">
+                <form
+                    id="edit-form"
+                    method="post"
+                    novalidate
+                    data-form-action="edit"
+                >
+                    <h1 class="col-span-2">Edit task</h1>
+                    <div class="form-field col-span-2">
+                        <label for="edit-title">Task Title</label>
+                        <input
+                            type="text"
+                            name="title"
+                            id="edit-title"
+                            autofocus
+                            required
+                        />
+                        <span class="error-msg">This field is required</span>
+                    </div>
+                    <div class="form-field">
+                        <label for="edit-dueDate">Due Date</label>
+                        <input
+                            type="datetime-local"
+                            name="dueDate"
+                            id="edit-dueDate"
+                            required
+                        />
+                        <span class="error-msg">This field is required</span>
+                    </div>
+                    <div class="form-field">
+                        <label for="edit-category">Category</label>
+                        <input
+                            type="search"
+                            name="category"
+                            id="edit-category"
+                            list="editCategoryList"
+                            required
+                        />
+                        <datalist
+                            id="editCategoryList"
+                            class="categoryList"
+                        ></datalist>
+                        <span class="error-msg">This field is required</span>
+                    </div>
+                    <div class="form-field col-span-2">
+                        <label for="edit-description">Description</label>
+                        <textarea
+                            name="description"
+                            id="edit-description"
+                            required
+                        ></textarea>
+                        <span class="error-msg">This field is required</span>
+                    </div>
+                    <input type="hidden" name="id" />
+                    <input type="hidden" name="status" />
+                    <input type="hidden" name="createdAt" />
+                    <button type="submit" class="col-span-2">
+                        Update task
+                    </button>
+                </form>
+            </dialog>
             <header id="navbar" class="mxa flex jb ac">
                 <a href="/" id="logo" class="flex ac jc">
                     <img src="/website-logo.png" alt="logo" />
@@ -121,7 +190,13 @@
                     </button>
                 </div>
                 <div id="tasks" class="mxa custom-scrollbar"></div>
-                <form id="task-form" method="post" novalidate class="hidden">
+                <form
+                    id="task-form"
+                    method="post"
+                    novalidate
+                    class="hidden"
+                    data-form-action="create"
+                >
                     <h1 class="col-span-2">Add new task</h1>
                     <div class="form-field col-span-2">
                         <label for="title">Task Title</label>
@@ -153,7 +228,10 @@
                             list="categoryList"
                             required
                         />
-                        <datalist id="categoryList"></datalist>
+                        <datalist
+                            id="categoryList"
+                            class="categoryList"
+                        ></datalist>
                         <span class="error-msg">This field is required</span>
                     </div>
                     <div class="form-field col-span-2">
