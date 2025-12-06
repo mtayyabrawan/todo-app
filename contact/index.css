@@ -61,9 +61,6 @@ form {
     margin-block: var(--fb-margin);
     padding: var(--form-pg);
     border-radius: calc(2 * var(--b-rad));
-    .col-span-2 {
-        grid-column: span 2;
-    }
     h1 {
         font-size: var(--lg);
     }
