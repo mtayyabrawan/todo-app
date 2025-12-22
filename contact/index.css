@@ -22,7 +22,8 @@
     --footer-dir: row;
 }
 
-#success {
+#success,
+#toaster {
     position: fixed;
     top: -10rem;
     left: 50%;
@@ -37,6 +38,14 @@
     color: var(--white);
     padding: 1rem;
     border-radius: var(--b-rad);
+    z-index: 50;
+    img {
+        height: 1rem;
+        &.border {
+            border: 1px solid white;
+            border-radius: 50%;
+        }
+    }
     h2 {
         font-size: var(--md);
     }

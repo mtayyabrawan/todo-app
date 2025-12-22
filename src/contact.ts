@@ -1,6 +1,7 @@
 import { cleaner, enterSubmit } from "./utils/form";
 
 import type { ContactData } from "./types/main";
+import toastAnimatinonRemover from "./utils/toast";
 
 const _form = document.querySelector("form") as HTMLFormElement;
 const _formBtn = document.querySelector("button") as HTMLButtonElement;
@@ -53,7 +54,4 @@ _form.addEventListener("submit", (event) => {
     _success.classList.add("animate");
 });
 
-_success.addEventListener("animationend", (evt) => {
-    const _target = evt.currentTarget as HTMLDivElement;
-    _target.classList.remove("animate");
-});
+_success.addEventListener("animationend", toastAnimatinonRemover);

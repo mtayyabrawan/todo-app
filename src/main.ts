@@ -13,6 +13,7 @@ import formatDate from "./utils/formatDate";
 
 // types
 import type { CreateTask, Status, Task } from "./types/main";
+import toastAnimatinonRemover from "./utils/toast";
 
 // DOM elements
 const _searchForm = document.getElementById("search-form") as HTMLDivElement;
@@ -57,6 +58,7 @@ const _selectedActions = document.getElementById(
 const _editModal = document.getElementById("edit-tasks") as HTMLDialogElement;
 const _viewModal = document.getElementById("view-tasks") as HTMLDialogElement;
 const _editForm = document.getElementById("edit-form") as HTMLFormElement;
+const _toaster = document.querySelector("#toaster") as HTMLDivElement;
 
 // global data variables
 let tasks = getTasks();
@@ -86,7 +88,7 @@ _selectAll.addEventListener("click", selectAll);
 _unSelect.addEventListener("click", unSelect);
 _removeSelect.addEventListener("click", removeSelected);
 
-// listener to remove sngle task node
+// listener to remove single task node
 function singleRemover(evt: MouseEvent) {
     const btn = evt.currentTarget as HTMLButtonElement;
     removeTask(
@@ -115,22 +117,43 @@ function unSelect() {
 // function to remove selected tasks first removes DOM nodes and then removes from localStorage
 function removeSelected() {
     const list = [..._taskList];
+    let deleteCount = 0;
     for (const _task of list) {
         if (_task.classList.contains("selected")) {
             unSelectTask(_task);
-            removeTask(_task.getAttribute("_id") as string, _task);
+            deleteCount++;
+            removeTask(
+                _task.getAttribute("_id") as string,
+                _task,
+                false,
+                false
+            );
         }
     }
+    toggleToast({
+        title: "Tasks Deleted!",
+        description: `${deleteCount} tasks deleted successfully!`,
+        icon: "./cancel.svg",
+        border: true,
+    });
     setTasks();
 }
 
 // function to mark status of selected tasks
 function markStatusSelected(status: Status) {
+    let selectedCount = 0;
+
     for (const _task of _taskList) {
         if (_task.classList.contains("selected")) {
+            selectedCount++;
             markStatus(_task, status);
         }
     }
+    toggleToast({
+        title: "Tasks Updated!",
+        description: `${selectedCount} tasks marked as ${status} successfully!`,
+        icon: "./icon-success-check.svg",
+    });
     setTasks();
     unSelect();
 }
@@ -243,6 +266,11 @@ function createTask(task: CreateTask) {
         tasks = [task as Task];
     }
     setTasks();
+    toggleToast({
+        title: "New task added!",
+        description: `"${task.title}" task created successfully!`,
+        icon: "./icon-success-check.svg",
+    });
     _tasks.appendChild(generateTask(task as Task));
 }
 
@@ -266,11 +294,20 @@ function editTask(task: Task) {
 async function removeTask(
     id: string,
     _task: HTMLDivElement,
-    db: boolean = false
+    db: boolean = false,
+    toast: boolean = true
 ) {
     const removingTask = getTask(id);
     if (!removingTask) return "Task not found";
     tasks = tasks?.filter((task) => task.id !== removingTask.id)!;
+    if (toast) {
+        toggleToast({
+            title: "Task Deleted!",
+            description: `"${removingTask.title}" task deleted successfully!`,
+            icon: "./cancel.svg",
+            border: true,
+        });
+    }
     _task.remove();
     if (db) {
         setTasks();
@@ -464,3 +501,22 @@ function toggleModal(evt: MouseEvent) {
         if (_modal.isSameNode(_target)) _modal.close();
     });
 });
+
+function toggleToast({
+    title,
+    description,
+    icon,
+    border,
+}: Record<"title" | "description" | "icon", string> & { border?: boolean }) {
+    const _icon = _toaster.children[0] as HTMLImageElement;
+    const _title = _toaster.children[1] as HTMLHeadingElement;
+    const _description = _toaster.children[2] as HTMLParagraphElement;
+    _title.innerText = title;
+    _description.innerText = description;
+    _icon.src = icon;
+    if (border) {
+        _icon.classList.add("border");
+    }
+    _toaster.classList.add("animate");
+    _toaster.addEventListener("animationend", toastAnimatinonRemover);
+}
