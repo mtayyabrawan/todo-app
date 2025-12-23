@@ -338,6 +338,15 @@ function loadCategoryList() {
             }
         }
     });
+    [..._categoryLists].forEach((_categoryList) => {
+        _categoryList.innerHTML = ``;
+        if (tasks !== null) {
+            const categories = new Set(tasks.map((task) => task.category));
+            for (const category of categories) {
+                _categoryList.innerHTML += `<option value="${capitalize(category)}">${capitalize(category)}</option>`;
+            }
+        }
+    });
 }
 
 document.addEventListener("DOMContentLoaded", loadCategoryList);
@@ -353,6 +362,7 @@ function taskSubmitHandler(event: SubmitEvent) {
         | HTMLTextAreaElement;
     if (invalidField) {
         invalidField.focus();
+        _submitBtn.disabled = false;
         _submitBtn.disabled = false;
         return;
     }
@@ -381,8 +391,12 @@ function taskSubmitHandler(event: SubmitEvent) {
     loadCategoryList();
     _target.reset();
     _submitBtn.disabled = false;
+    _target.reset();
+    _submitBtn.disabled = false;
 }
 
+_taskForm.addEventListener("submit", taskSubmitHandler);
+_editForm.addEventListener("submit", taskSubmitHandler);
 _taskForm.addEventListener("submit", taskSubmitHandler);
 _editForm.addEventListener("submit", taskSubmitHandler);
 
